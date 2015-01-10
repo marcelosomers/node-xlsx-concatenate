@@ -3,9 +3,6 @@ var fs = require("fs")
 
 var inputDirectory = "files/";
 
-//
-var output = null;
-
 fs.readdir(inputDirectory, function(err, files) {
     if (err) {
         throw err;
@@ -18,23 +15,19 @@ fs.readdir(inputDirectory, function(err, files) {
         var file = xlsx.readFile(inputDirectory + files[i]);
 
         // parse file
-        to_csv(file);
+        to_json(file);
     }
 });
 
 
-function to_csv(workbook) {
-    var result = {};
-    workbook.SheetNames.forEach(function(sheetName) {
-        var roa = xlsx.utils.sheet_to_csv(workbook.Sheets[sheetName]);
-        if(roa.length > 0){
-            result[sheetName] = roa;
-        }
+function to_json(workbook) {
+    var sheet_name_list = workbook.SheetNames;
+    var sheet = workbook.Sheets[sheet_name_list[0]];
+    var data = xlsx.utils.sheet_to_json(sheet, {header:1});
 
-        fs.appendFile("output.csv", roa, function(err) {
-            if(err) {
-                throw err;
-            }
-        })
-    });
+    fs.appendFile("output1.txt", data, function(err) {
+        if(err) {
+            throw err;
+        }
+    })
 }
