@@ -14,6 +14,7 @@ fs.readdir(inputDirectory, function(err, files) {
 
         var fileName = files[i];
 
+        // TODO: Only open xlsx files
         if(files[i] !== ".DS_Store") {
             // Read the file
             var file = xlsx.readFile(inputDirectory + files[i]);
@@ -30,11 +31,14 @@ function to_json(workbook, fileName, loop) {
     var sheet = workbook.Sheets[sheet_name_list[0]];
     var data = xlsx.utils.sheet_to_json(sheet, {header:1});
 
+    // Process the blank cells to use an empty string
+    for(var i = 0; i != data.length; ++i) for(var j = 0; j != data[i].length; ++j) if(typeof data[i][j] === 'undefined') data[i][j] = "";
+
     // Loop over each row in the file
     for(var i=0; i<data.length; i++) {
         // add the file name to every row but the header
         if (i === 0) {
-            data[i].unshift("File Name")
+            data[i].unshift("BOM")      // The first cell in header should say "BOM"
         } else {
             data[i].unshift(fileName);  // add the file name at the beginning
             data[i].push('\r\n');       // add a line break at the end
@@ -50,7 +54,11 @@ function to_json(workbook, fileName, loop) {
         // strip off the last trailing comma
         row.slice(0, row.length - 1);
 
-        csvContent += row + '\r\n';
+        if(loop !== 0 && row.indexOf("Part No.") > -1) {
+
+        } else {
+            csvContent += row + '\r\n';
+        }
     }
 
 
