@@ -1,0 +1,6 @@
+{
+  "name": "node-concatenate-xlsx",
+  "devDependencies": {
+    "xlsx": "~0.7.12"
+  }
+}
