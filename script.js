@@ -8,9 +8,6 @@ var fs = require("fs")
 var inputDirectory = "input/";
 var exportDirectory = "export/";
 
-<<<<<<< HEAD
-=======
-
 
 /**
  * Don't touch anything below!
@@ -40,7 +37,6 @@ var exportFileName = yyyy + "-" + mm + "-" + dd + " " + hh + "." + mm + "." + ss
 /**
  * The magic starts here!
  */
->>>>>>> json
 fs.readdir(inputDirectory, function(err, files) {
     if (err) {
         throw err;
@@ -52,10 +48,9 @@ fs.readdir(inputDirectory, function(err, files) {
         var fileName = files[i];
         var fileType = fileName.substr(fileName.length - 5);
 
-<<<<<<< HEAD
         // Parse file
         to_csv(file, files[i]);
-=======
+        
         // Only open xlsx files
         if(fileType === ".xlsx") {
             // Read the file
@@ -64,12 +59,10 @@ fs.readdir(inputDirectory, function(err, files) {
             // parse the file
             parseFile(file, fileName, i);
         }
->>>>>>> json
     }
 });
 
 
-<<<<<<< HEAD
 function to_csv(workbook, fileName) {
     var result = {};
     workbook.SheetNames.forEach(function(sheetName) {
@@ -92,7 +85,7 @@ function to_csv(workbook, fileName) {
             }
         })
     });
-=======
+
 function parseFile(workbook, fileName, loop) {
     var sheet_name_list = workbook.SheetNames;
     var sheet = workbook.Sheets[sheet_name_list[0]];
@@ -133,5 +126,4 @@ function parseFile(workbook, fileName, loop) {
             })
         }
     }
->>>>>>> json
 }
