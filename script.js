@@ -5,13 +5,13 @@ var fs = require("fs")
  * Configuration
  * Set Input Directory and Export Directory
  */
-var inputDirectory = "files/";
+var inputDirectory = "input/";
 var exportDirectory = "export/";
 
 
 
 /**
- * Don't touch anything else!
+ * Don't touch anything below!
  */
 var csvContent = "";
 var output = "";
@@ -54,14 +54,14 @@ fs.readdir(inputDirectory, function(err, files) {
             // Read the file
             var file = xlsx.readFile(inputDirectory + files[i]);
 
-            // parse file
-            to_json(file, fileName, i);
+            // parse the file
+            parseFile(file, fileName, i);
         }
     }
 });
 
 
-function to_json(workbook, fileName, loop) {
+function parseFile(workbook, fileName, loop) {
     var sheet_name_list = workbook.SheetNames;
     var sheet = workbook.Sheets[sheet_name_list[0]];
     var data = xlsx.utils.sheet_to_json(sheet, {header:1});
